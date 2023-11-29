@@ -13,8 +13,16 @@ public class SieveConjectureBigInts {
         System.out.println(sieve(100));
         System.out.println(goldbach(6));
 
-        ArrayList<Integer> num1 = convertInt(350);
-        ArrayList<Integer> num2 = convertInt(450);   
+        ArrayList<Integer> num1 = new ArrayList();
+        num1.add(5);
+        num1.add(9);
+        num1.add(8);
+        num1.add(7);
+        ArrayList<Integer> num2 = new ArrayList();
+        num2.add(3);
+        num2.add(6);
+        num2.add(9);
+
         System.out.println(bigInts(num1, num2));
     }
 
@@ -55,22 +63,32 @@ public class SieveConjectureBigInts {
         return goldbach;
     }
 
-    public static ArrayList<Integer> convertInt(int num) {
-        ArrayList<Integer> bigInt = new ArrayList();
-        
-        for (int i = 0; i < num.size(); i++) {
-            
-        }
-    }
-
-    public static ArrayList<Integer> bigInts(ArrayList<Integer> num1, ArrayList<Integer> num2) {
+    public static ArrayList<Integer> bigInts(ArrayList<Integer> a, ArrayList<Integer> b) {
         ArrayList<Integer> bigints = new ArrayList();
+        int carry = 0;
+        int lastA = a.size() - 1;
+        int lastB = b.size() - 1;
 
-        for (int i = 0; i < num1.size(); i++) num1.add(i);
-        for (int i = 0; i < num2.size(); i++) num2.add(i);
+        while (lastA >= 0 || lastB >= 0) {
+            int sum = 0;
+            if (lastA >= 0 && lastB >= 0) sum = a.get(lastA) + b.get(lastB) + carry;
+            else if (lastA >= 0) sum = a.get(lastA) + carry;
+            else if (lastB >= 0) sum = b.get(lastB) + carry;
+            else sum = carry;
+
+            if (sum > 9) {
+                carry = 1;
+                sum -= 10;
+            } else carry = 0;
+
+            bigints.add(0, sum);
+            lastA--;
+            lastB--;
+        }
+
+        if (carry > 0) bigints.add(0, 1); 
 
         return bigints;
     }
 
 }
-
